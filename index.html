@@ -946,33 +946,7 @@
             const fullText = encodeURIComponent(`${greeting}${subjectLine}${bodyLine}`);
             window.open(`https://wa.me/201515539506?text=${fullText}`, '_blank', 'noopener');
         });
-
-        // 9. Profile Photo Browser Preview/Upload Handler
-        const photoUploadInput = document.getElementById('photoUploadInput');
-        if (photoUploadInput) {
-            photoUploadInput.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (!file) return;
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const imgEl = document.getElementById('profilePhotoImg');
-                    const fallbackEl = document.getElementById('profileFallbackAvatar');
-                    const noteEl = document.getElementById('photoHelperNote');
-                    if (imgEl) {
-                        imgEl.src = event.target.result;
-                        imgEl.classList.remove('hidden');
-                    }
-                    if (fallbackEl) {
-                        fallbackEl.classList.add('hidden');
-                        fallbackEl.classList.remove('flex');
-                    }
-                    if (noteEl) {
-                        noteEl.classList.add('hidden');
-                    }
-                };
-                reader.readAsDataURL(file);
-            });
-        }
+                 
 
         // Initialize on load
         window.addEventListener('DOMContentLoaded', () => {
