@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أحمد علي مصطفى | نظم المعلومات الإدارية وإدارة الأعمال</title>
+    <!-- Google Fonts: Cairo & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        },
+                        accent: {
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                        }
+                    }
+                }
+            }
+        }
+
+        // دالة بديلة لعرض أيقونة أنيقة في حال عدم وجود ملف الصورة بجانب صفحة الويب
+        window.handleImageFallback = function(imgEl) {
+            if (!imgEl) return;
+            imgEl.classList.add('hidden');
+            const fallbackEl = document.getElementById('profileFallbackAvatar');
+            const noteEl = document.getElementById('photoHelperNote');
+            if (fallbackEl) {
+                fallbackEl.classList.remove('hidden');
+                fallbackEl.classList.add('flex');
+            }
+            if (noteEl) {
+                noteEl.classList.remove('hidden');
+            }
+        };
+    </script>
+    <style>
+        body {
+            font-family: 'Cairo', 'Inter', sans-serif;
+        }
+        html[lang="en"] body {
+            font-family: 'Inter', 'Cairo', sans-serif;
+        }
+        .glass-nav {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        @keyframes pulseSlow {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+        }
+        .whatsapp-pulse {
+            animation: pulseSlow 2.8s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 overflow-x-hidden">
+
+    <!-- Navbar -->
+    <header class="fixed top-0 inset-x-0 z-50 glass-nav bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/70 dark:border-slate-800/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand -->
+            <a href="#home" class="flex items-center gap-2.5 group">
+                <span class="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary-600 to-accent-600 text-white font-extrabold flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                    A
+                </span>
+                <span class="font-bold text-lg tracking-tight" data-i18n="brandName">أحمد علي مصطفى</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center gap-7 text-sm font-semibold">
+                <a href="#home" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors" data-i18n="navHome">الرئيسية</a>
+                <a href="#about" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors" data-i18n="navAbout">نبذة عني</a>
+                <a href="#skills" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors" data-i18n="navSkills">المهارات</a>
+                <a href="#projects" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors" data-i18n="navProjects">الأعمال</a>
+                <a href="#experience" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors" data-i18n="navExperience">الخبرات</a>
+                <a href="#contact" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors" data-i18n="navContact">تواصل معي</a>
+            </nav>
+
+            <!-- Controls: Language & Theme -->
+            <div class="flex items-center gap-2">
+                <button id="langToggleBtn" type="button" class="px-3 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors flex items-center gap-1.5" aria-label="Toggle Language">
+                    <i class="fa-solid fa-globe text-primary-600 dark:text-primary-400"></i>
+                    <span id="langToggleLabel">EN</span>
+                </button>
+
+                <button id="themeToggleBtn" type="button" class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 flex items-center justify-center text-slate-700 dark:text-amber-400 transition-colors" aria-label="Toggle Theme">
+                    <i id="themeIcon" class="fa-solid fa-moon"></i>
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" type="button" class="md:hidden w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-700 dark:text-slate-200" aria-label="Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 pt-2 pb-5 space-y-2">
+            <a href="#home" class="block py-2 px-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold" data-i18n="navHome">الرئيسية</a>
+            <a href="#about" class="block py-2 px-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold" data-i18n="navAbout">نبذة عني</a>
+            <a href="#skills" class="block py-2 px-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold" data-i18n="navSkills">المهارات</a>
+            <a href="#projects" class="block py-2 px-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold" data-i18n="navProjects">الأعمال</a>
+            <a href="#experience" class="block py-2 px-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold" data-i18n="navExperience">الخبرات</a>
+            <a href="#contact" class="block py-2 px-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold" data-i18n="navContact">تواصل معي</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-28 pb-20 md:pt-36 md:pb-28 relative overflow-hidden">
+        <!-- Decorative Background Blurs -->
+        <div class="absolute -top-24 -right-24 w-80 h-80 bg-primary-500/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute top-1/2 -left-24 w-80 h-80 bg-accent-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Text Content -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-start">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-50 dark:bg-primary-900/30 border border-primary-200/70 dark:border-primary-800/60 text-primary-700 dark:text-primary-300 text-xs sm:text-sm font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                        <span data-i18n="heroBadge">متاح للمشاريع والتعاون المهني</span>
+                    </div>
+
+                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight">
+                        <span class="block text-slate-600 dark:text-slate-400 text-xl sm:text-2xl font-semibold mb-2" data-i18n="heroGreeting">مرحباً، أنا</span>
+                        <span class="bg-gradient-to-r from-primary-600 via-accent-600 to-indigo-500 bg-clip-text text-transparent" data-i18n="heroName">أحمد علي مصطفى</span>
+                    </h1>
+
+                    <p class="text-lg sm:text-xl font-bold text-slate-700 dark:text-slate-200" data-i18n="heroRole">
+                        طالب نظم المعلومات الإدارية (MIS) وإدارة الأعمال
+                    </p>
+
+                    <p class="text-slate-600 dark:text-slate-400 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed" data-i18n="heroBio">
+                        أجمع بين فهم العمليات الإدارية وتحليل البيانات وتطوير الحلول الرقمية الحديثة لبناء أنظمة وتجارب ويب عملية تساعد الأفراد والشركات على النمو واتخاذ قرارات ذكية.
+                    </p>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3.5 pt-2">
+                        <a href="https://wa.me/201515539506" target="_blank" rel="noopener" class="px-6 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-lg shadow-emerald-600/25 flex items-center gap-2.5 transition-all hover:-translate-y-0.5">
+                            <i class="fa-brands fa-whatsapp text-xl"></i>
+                            <span data-i18n="heroWhatsappBtn">تواصل عبر واتساب</span>
+                        </a>
+
+                        <a href="https://www.instagram.com/a_a_ms_7" target="_blank" rel="noopener" class="px-6 py-3.5 rounded-2xl bg-gradient-to-tr from-amber-500 via-pink-600 to-purple-600 hover:opacity-95 text-white font-bold shadow-lg shadow-pink-600/20 flex items-center gap-2.5 transition-all hover:-translate-y-0.5">
+                            <i class="fa-brands fa-instagram text-xl"></i>
+                            <span>@a_a_ms_7</span>
+                        </a>
+
+                        <a href="#projects" class="px-6 py-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary-500 font-bold flex items-center gap-2 transition-all">
+                            <span data-i18n="heroProjectsBtn">استعراض أعمالي</span>
+                            <i class="fa-solid fa-arrow-left rtl:rotate-0 ltr:rotate-180 text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Personal Photo Frame -->
+                <div class="lg:col-span-5 flex flex-col items-center">
+                    <div class="relative group w-64 h-64 sm:w-80 sm:h-80">
+                        <!-- Gradient Glow Ring -->
+                        <div class="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-primary-600 via-accent-500 to-emerald-500 opacity-75 blur-md group-hover:opacity-100 transition-opacity"></div>
+
+                        <!-- Photo Container -->
+                        <div class="relative w-full h-full rounded-3xl overflow-hidden bg-slate-200 dark:bg-slate-800 border-4 border-white dark:border-slate-900 shadow-2xl flex items-center justify-center">
+                            <img
+                                id="profilePhotoImg"
+                                src="photo_5834669632776769788_y.jpg"
+                                alt="أحمد علي مصطفى"
+                                class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                                onerror="handleImageFallback(this)"
+                            >
+
+                            <!-- Fallback Avatar if local file isn't in same folder yet -->
+                            <div id="profileFallbackAvatar" class="hidden flex-col items-center justify-center text-center p-6 w-full h-full bg-gradient-to-br from-slate-800 to-slate-950 text-white">
+                                <div class="w-20 h-20 rounded-full bg-primary-600/20 border border-primary-400/40 flex items-center justify-center mb-3">
+                                    <i class="fa-solid fa-user-tie text-4xl text-primary-400"></i>
+                                </div>
+                                <p class="font-bold text-base">أحمد علي مصطفى</p>
+                                <p class="text-xs text-slate-400 mt-1" dir="ltr">photo_5834669632776769788_y.jpg</p>
+                            </div>
+
+                            <!-- Hover Overlay to Preview/Upload Photo Directly in Browser -->
+                            <label for="photoUploadInput" class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white cursor-pointer p-4 text-center">
+                                <i class="fa-solid fa-camera text-2xl mb-2 text-primary-400"></i>
+                                <span class="text-xs sm:text-sm font-bold" data-i18n="changePhotoLabel">تغيير / معاينة صورتك الشخصية</span>
+                                <input id="photoUploadInput" type="file" accept="image/*" class="hidden">
+                            </label>
+                        </div>
+
+                        <!-- Floating Badge -->
+                        <div class="absolute -bottom-4 -right-3 sm:-right-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl px-4 py-2.5 shadow-xl flex items-center gap-2.5">
+                            <span class="w-9 h-9 rounded-xl bg-primary-600/10 text-primary-600 dark:text-primary-400 flex items-center justify-center">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </span>
+                            <div>
+                                <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="badgeFocusLabel">التخصص</p>
+                                <p class="text-xs sm:text-sm font-extrabold" data-i18n="badgeFocusValue">MIS & Business</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Helper note if fallback triggered -->
+                    <p id="photoHelperNote" class="hidden mt-6 text-xs text-slate-500 dark:text-slate-400 text-center max-w-xs" data-i18n="photoHelperText">
+                        ضع ملف الصورة <code class="text-primary-600 dark:text-primary-400 font-mono">photo_5834669632776769788_y.jpg</code> بجانب ملف الموقع أو مرّر المؤشر على الإطار لاختيارها من جهازك.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white dark:bg-slate-900/50 border-y border-slate-200/70 dark:border-slate-800/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <span class="text-primary-600 dark:text-primary-400 font-bold text-sm uppercase tracking-wider" data-i18n="aboutSubtitle">تعرّف عليّ</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold mt-2" data-i18n="aboutTitle">نبذة عني</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <div class="lg:col-span-7 space-y-5 text-slate-600 dark:text-slate-300 leading-relaxed text-base sm:text-lg">
+                    <p data-i18n="aboutP1">
+                        أنا <strong>أحمد علي مصطفى</strong>، طالب شغوف في مجال <strong>نظم المعلومات الإدارية وإدارة الأعمال</strong>. أؤمن بأن التكنولوجيا الحديثة هي المحرك الأساسي لنجاح المؤسسات، لذلك أركز على دمج المهارات الإدارية والتحليلية مع الأدوات التقنية لبناء حلول عملية منظمة.
+                    </p>
+                    <p data-i18n="aboutP2">
+                        أهتم بتطوير مواقع الويب، تحليل بيانات الأعمال، وتصميم قواعد البيانات وتقارير الأداء التي تساعد في تبسيط الإجراءات اليومية ورفع كفاءة العمل.
+                    </p>
+
+                    <!-- Direct Quick Info Pills -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3">
+                        <a href="https://wa.me/201515539506" target="_blank" rel="noopener" class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 flex items-center gap-3.5 hover:border-emerald-500 transition-colors">
+                            <span class="w-11 h-11 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </span>
+                            <div>
+                                <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="infoWhatsappLabel">واتساب مباشر</p>
+                                <p class="font-bold text-sm" dir="ltr">+20 151 553 9506</p>
+                            </div>
+                        </a>
+
+                        <a href="https://www.instagram.com/a_a_ms_7" target="_blank" rel="noopener" class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 flex items-center gap-3.5 hover:border-pink-500 transition-colors">
+                            <span class="w-11 h-11 rounded-xl bg-pink-500/15 text-pink-600 dark:text-pink-400 flex items-center justify-center text-xl">
+                                <i class="fa-brands fa-instagram"></i>
+                            </span>
+                            <div>
+                                <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="infoInstaLabel">إنستجرام</p>
+                                <p class="font-bold text-sm" dir="ltr">@a_a_ms_7</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="lg:col-span-5 grid grid-cols-2 gap-4">
+                    <div class="p-6 rounded-3xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700/70 text-center">
+                        <p class="text-3xl sm:text-4xl font-extrabold text-primary-600 dark:text-primary-400">+12</p>
+                        <p class="text-sm font-semibold text-slate-600 dark:text-slate-300 mt-2" data-i18n="statProjects">مشروع أكاديمي وتطبيقي</p>
+                    </div>
+                    <div class="p-6 rounded-3xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700/70 text-center">
+                        <p class="text-3xl sm:text-4xl font-extrabold text-accent-600 dark:text-accent-400">+8</p>
+                        <p class="text-sm font-semibold text-slate-600 dark:text-slate-300 mt-2" data-i18n="statTools">أدوات تحليل وتطوير</p>
+                    </div>
+                    <div class="p-6 rounded-3xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700/70 text-center">
+                        <p class="text-3xl sm:text-4xl font-extrabold text-emerald-600 dark:text-emerald-400">100%</p>
+                        <p class="text-sm font-semibold text-slate-600 dark:text-slate-300 mt-2" data-i18n="statCommitment">التزام ودقة في التنفيذ</p>
+                    </div>
+                    <div class="p-6 rounded-3xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700/70 text-center">
+                        <p class="text-3xl sm:text-4xl font-extrabold text-amber-500">24/7</p>
+                        <p class="text-sm font-semibold text-slate-600 dark:text-slate-300 mt-2" data-i18n="statSupport">تواصل سريع ومرن</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <span class="text-primary-600 dark:text-primary-400 font-bold text-sm uppercase tracking-wider" data-i18n="skillsSubtitle">القدرات والأدوات</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold mt-2" data-i18n="skillsTitle">المهارات التقنية والإدارية</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Category 1 -->
+                <div class="p-7 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 rounded-2xl bg-primary-600/10 text-primary-600 dark:text-primary-400 flex items-center justify-center text-xl mb-5">
+                        <i class="fa-solid fa-database"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4" data-i18n="skillCat1">نظم المعلومات والبيانات</h3>
+                    <div class="space-y-3 text-sm">
+                        <div>
+                            <div class="flex justify-between font-semibold mb-1">
+                                <span>SQL & Database Design</span>
+                                <span>88%</span>
+                            </div>
+                            <div class="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                                <div class="h-full bg-primary-600 rounded-full" style="width: 88%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between font-semibold mb-1">
+                                <span>Excel & Data Analysis</span>
+                                <span>92%</span>
+                            </div>
+                            <div class="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                                <div class="h-full bg-primary-600 rounded-full" style="width: 92%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between font-semibold mb-1">
+                                <span>ERP & Systems Analysis</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                                <div class="h-full bg-primary-600 rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 2 -->
+                <div class="p-7 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 rounded-2xl bg-accent-600/10 text-accent-600 dark:text-accent-400 flex items-center justify-center text-xl mb-5">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4" data-i18n="skillCat2">تطوير الويب والواجهات</h3>
+                    <div class="space-y-3 text-sm">
+                        <div>
+                            <div class="flex justify-between font-semibold mb-1">
+                                <span>HTML5 / CSS3 / Tailwind</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                                <div class="h-full bg-accent-600 rounded-full" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between font-semibold mb-1">
+                                <span>JavaScript (ES6+)</span>
+                                <span>82%</span>
+                            </div>
+                            <div class="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                                <div class="h-full bg-accent-600 rounded-full" style="width: 82%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between font-semibold mb-1">
+                                <span>UI/UX & Responsive Design</span>
+                                <span>86%</span>
+                            </div>
+                            <div class="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                                <div class="h-full bg-accent-600 rounded-full" style="width: 86%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 3 -->
+                <div class="p-7 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-600/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl mb-5">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4" data-i18n="skillCat3">إدارة الأعمال والتخطيط</h3>
+                    <div class="space-y-3 text-sm">
+                        <div>
+                            <div class="flex justify-between font-semibold mb-1">
+                                <span data-i18n="skillMgmt1">إدارة المشاريع والتنظيم</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                                <div class="h-full bg-emerald-600 rounded-full" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between font-semibold mb-1">
+                                <span data-i18n="skillMgmt2">التسويق الرقمي وصناعة المحتوى</span>
+                                <span>84%</span>
+                            </div>
+                            <div class="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                                <div class="h-full bg-emerald-600 rounded-full" style="width: 84%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between font-semibold mb-1">
+                                <span data-i18n="skillMgmt3">التواصل الفعال والعمل الجماعي</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                                <div class="h-full bg-emerald-600 rounded-full" style="width: 95%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 bg-white dark:bg-slate-900/50 border-y border-slate-200/70 dark:border-slate-800/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <span class="text-primary-600 dark:text-primary-400 font-bold text-sm uppercase tracking-wider" data-i18n="projectsSubtitle">معرض الأعمال</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold mt-2" data-i18n="projectsTitle">أبرز المشاريع والنماذج</h2>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap items-center justify-center gap-2.5 mb-12">
+                <button type="button" data-filter="all" class="filter-btn active px-5 py-2.5 rounded-2xl text-sm font-bold bg-primary-600 text-white shadow-sm transition-all" data-i18n="filterAll">الكل</button>
+                <button type="button" data-filter="web" class="filter-btn px-5 py-2.5 rounded-2xl text-sm font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all" data-i18n="filterWeb">تطوير ويب</button>
+                <button type="button" data-filter="mis" class="filter-btn px-5 py-2.5 rounded-2xl text-sm font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all" data-i18n="filterMis">نظم معلومات</button>
+                <button type="button" data-filter="business" class="filter-btn px-5 py-2.5 rounded-2xl text-sm font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all" data-i18n="filterBusiness">إدارة أعمال</button>
+            </div>
+
+            <!-- Projects Grid -->
+            <div id="projectsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7"></div>
+        </div>
+    </section>
+
+    <!-- Experience & Education Section -->
+    <section id="experience" class="py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14">
+                <span class="text-primary-600 dark:text-primary-400 font-bold text-sm uppercase tracking-wider" data-i18n="expSubtitle">المسار الأكاديمي والعملي</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold mt-2" data-i18n="expTitle">التعليم والخبرات</h2>
+            </div>
+
+            <div class="space-y-6 relative before:absolute before:inset-y-0 before:right-6 rtl:before:right-6 ltr:before:left-6 before:w-0.5 before:bg-slate-200 dark:before:bg-slate-800">
+                <!-- Item 1 -->
+                <div class="relative pr-14 rtl:pr-14 ltr:pl-14">
+                    <span class="absolute right-3.5 rtl:right-3.5 ltr:left-3.5 top-2 w-5 h-5 rounded-full bg-primary-600 ring-4 ring-primary-100 dark:ring-primary-950"></span>
+                    <div class="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                        <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-300 mb-2" data-i18n="exp1Date">مستمر</span>
+                        <h3 class="text-lg font-extrabold" data-i18n="exp1Title">بكالوريوس نظم المعلومات الإدارية وإدارة الأعمال</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mt-2 leading-relaxed" data-i18n="exp1Desc">
+                            دراسة متكاملة تجمع بين تحليل وتصميم النظم، قواعد البيانات، مبادئ الإدارة، المحاسبة، والتجارة الإلكترونية.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="relative pr-14 rtl:pr-14 ltr:pl-14">
+                    <span class="absolute right-3.5 rtl:right-3.5 ltr:left-3.5 top-2 w-5 h-5 rounded-full bg-accent-600 ring-4 ring-accent-100 dark:ring-accent-950"></span>
+                    <div class="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                        <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-accent-50 dark:bg-accent-900/40 text-accent-600 dark:text-accent-300 mb-2" data-i18n="exp2Date">مشاريع حرة وتطبيقية</span>
+                        <h3 class="text-lg font-extrabold" data-i18n="exp2Title">تطوير مواقع الويب وحلول البيانات</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mt-2 leading-relaxed" data-i18n="exp2Desc">
+                            تصميم مواقع تعريفية وتفاعلية متجاوبة مع جميع الشاشات، وبناء لوحات متابعة وتقارير Excel/SQL لدعم القرارات الإدارية.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-white dark:bg-slate-900/50 border-t border-slate-200/70 dark:border-slate-800/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <span class="text-primary-600 dark:text-primary-400 font-bold text-sm uppercase tracking-wider" data-i18n="contactSubtitle">لنبدأ العمل معاً</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold mt-2" data-i18n="contactTitle">تواصل معي مباشرة</h2>
+                <p class="text-slate-600 dark:text-slate-400 mt-3" data-i18n="contactDesc">
+                    يسعدني تواصلك معي عبر واتساب أو إنستجرام أو إرسال رسالتك مباشرة من النموذج أدناه.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <!-- Direct Contact Cards -->
+                <div class="lg:col-span-5 space-y-4">
+                    <a href="https://wa.me/201515539506" target="_blank" rel="noopener" class="block p-6 rounded-3xl bg-gradient-to-br from-emerald-500 to-emerald-700 text-white shadow-lg shadow-emerald-600/20 hover:-translate-y-1 transition-all">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <span class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center text-3xl">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </span>
+                                <div>
+                                    <p class="text-emerald-100 text-xs font-semibold" data-i18n="cardWhatsappTitle">محادثة فورية على واتساب</p>
+                                    <p class="text-xl font-extrabold mt-0.5" dir="ltr">+20 151 553 9506</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-left rtl:rotate-0 ltr:rotate-90 text-xl opacity-80"></i>
+                        </div>
+                    </a>
+
+                    <a href="https://www.instagram.com/a_a_ms_7" target="_blank" rel="noopener" class="block p-6 rounded-3xl bg-gradient-to-tr from-amber-500 via-pink-600 to-purple-700 text-white shadow-lg shadow-pink-600/20 hover:-translate-y-1 transition-all">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <span class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center text-3xl">
+                                    <i class="fa-brands fa-instagram"></i>
+                                </span>
+                                <div>
+                                    <p class="text-pink-100 text-xs font-semibold" data-i18n="cardInstaTitle">تابعني وتواصل عبر إنستجرام</p>
+                                    <p class="text-xl font-extrabold mt-0.5" dir="ltr">@a_a_ms_7</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-left rtl:rotate-0 ltr:rotate-90 text-xl opacity-80"></i>
+                        </div>
+                    </a>
+
+                    <div class="p-6 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center gap-4">
+                        <span class="w-12 h-12 rounded-2xl bg-primary-600/10 text-primary-600 dark:text-primary-400 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </span>
+                        <div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="cardLocationLabel">الموقع</p>
+                            <p class="font-bold" data-i18n="cardLocationValue">مصر (متاح للعمل عن بُعد)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Message Form -->
+                <div class="lg:col-span-7 p-6 sm:p-8 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                    <form id="contactForm" class="space-y-5">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="senderName" class="block text-sm font-bold mb-2" data-i18n="formNameLabel">الاسم بالكامل</label>
+                                <input id="senderName" type="text" required class="w-full px-4 py-3 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-primary-500" data-i18n-placeholder="formNamePlaceholder" placeholder="اكتب اسمك هنا">
+                            </div>
+                            <div>
+                                <label for="senderSubject" class="block text-sm font-bold mb-2" data-i18n="formSubjectLabel">الموضوع</label>
+                                <input id="senderSubject" type="text" required class="w-full px-4 py-3 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-primary-500" data-i18n-placeholder="formSubjectPlaceholder" placeholder="عنوان الرسالة أو المشروع">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="senderMessage" class="block text-sm font-bold mb-2" data-i18n="formMessageLabel">تفاصيل الرسالة</label>
+                            <textarea id="senderMessage" rows="4" required class="w-full px-4 py-3 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-primary-500" data-i18n-placeholder="formMessagePlaceholder" placeholder="اكتب رسالتك هنا وسيتم تجهيزها للإرسال الفوري عبر واتساب..."></textarea>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-3">
+                            <button type="submit" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2.5 transition-all">
+                                <i class="fa-brands fa-whatsapp text-xl"></i>
+                                <span data-i18n="formWhatsappSubmit">إرسال عبر واتساب مباشرة</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-10 bg-slate-950 text-slate-400 border-t border-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="text-sm font-medium" data-i18n="footerCopyright">© 2026 أحمد علي مصطفى. جميع الحقوق محفوظة.</p>
+
+            <div class="flex items-center gap-4">
+                <a href="https://wa.me/201515539506" target="_blank" rel="noopener" class="w-10 h-10 rounded-xl bg-slate-900 hover:bg-emerald-600 text-white flex items-center justify-center transition-colors" aria-label="WhatsApp">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                </a>
+                <a href="https://www.instagram.com/a_a_ms_7" target="_blank" rel="noopener" class="w-10 h-10 rounded-xl bg-slate-900 hover:bg-pink-600 text-white flex items-center justify-center transition-colors" aria-label="Instagram">
+                    <i class="fa-brands fa-instagram text-lg"></i>
+                </a>
+                <a href="#home" class="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-xs font-bold text-slate-200 transition-colors" data-i18n="backToTop">
+                    العودة للأعلى
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/201515539506" target="_blank" rel="noopener" class="fixed bottom-6 left-6 z-40 w-14 h-14 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white shadow-2xl shadow-emerald-600/40 flex items-center justify-center text-3xl whatsapp-pulse transition-transform hover:scale-110" aria-label="Chat on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- Project Details Modal -->
+    <div id="projectModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative">
+            <button id="closeModalBtn" type="button" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 absolute top-5 left-5 rtl:left-5 ltr:right-5">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <span id="modalCategory" class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-300 mb-3"></span>
+            <h3 id="modalTitle" class="text-2xl font-extrabold mb-3"></h3>
+            <p id="modalDesc" class="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed mb-5"></p>
+            <div id="modalTags" class="flex flex-wrap gap-2 mb-6"></div>
+            <a href="https://wa.me/201515539506" target="_blank" rel="noopener" class="w-full py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold flex items-center justify-center gap-2 transition-colors">
+                <i class="fa-brands fa-whatsapp text-lg"></i>
+                <span data-i18n="modalAskBtn">اطلب مشروعاً مشابهاً عبر واتساب</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // 1. Translations Dictionary (Arabic & English)
+        const translations = {
+            ar: {
+                brandName: "أحمد علي مصطفى",
+                navHome: "الرئيسية",
+                navAbout: "نبذة عني",
+                navSkills: "المهارات",
+                navProjects: "الأعمال",
+                navExperience: "الخبرات",
+                navContact: "تواصل معي",
+                heroBadge: "متاح للمشاريع والتعاون المهني",
+                heroGreeting: "مرحباً، أنا",
+                heroName: "أحمد علي مصطفى",
+                heroRole: "طالب نظم المعلومات الإدارية (MIS) وإدارة الأعمال",
+                heroBio: "أجمع بين فهم العمليات الإدارية وتحليل البيانات وتطوير الحلول الرقمية الحديثة لبناء أنظمة وتجارب ويب عملية تساعد الأفراد والشركات على النمو واتخاذ قرارات ذكية.",
+                heroWhatsappBtn: "تواصل عبر واتساب",
+                heroProjectsBtn: "استعراض أعمالي",
+                changePhotoLabel: "تغيير / معاينة صورتك الشخصية",
+                badgeFocusLabel: "التخصص",
+                badgeFocusValue: "MIS & Business",
+                photoHelperText: "ضع ملف الصورة photo_5834669632776769788_y.jpg بجانب ملف الموقع أو مرّر المؤشر على الإطار لاختيارها من جهازك.",
+                aboutSubtitle: "تعرّف عليّ",
+                aboutTitle: "نبذة عني",
+                aboutP1: "أنا أحمد علي مصطفى، طالب شغوف في مجال نظم المعلومات الإدارية وإدارة الأعمال. أؤمن بأن التكنولوجيا الحديثة هي المحرك الأساسي لنجاح المؤسسات، لذلك أركز على دمج المهارات الإدارية والتحليلية مع الأدوات التقنية لبناء حلول عملية منظمة.",
+                aboutP2: "أهتم بتطوير مواقع الويب، تحليل بيانات الأعمال، وتصميم قواعد البيانات وتقارير الأداء التي تساعد في تبسيط الإجراءات اليومية ورفع كفاءة العمل.",
+                infoWhatsappLabel: "واتساب مباشر",
+                infoInstaLabel: "إنستجرام",
+                statProjects: "مشروع أكاديمي وتطبيقي",
+                statTools: "أدوات تحليل وتطوير",
+                statCommitment: "التزام ودقة في التنفيذ",
+                statSupport: "تواصل سريع ومرن",
+                skillsSubtitle: "القدرات والأدوات",
+                skillsTitle: "المهارات التقنية والإدارية",
+                skillCat1: "نظم المعلومات والبيانات",
+                skillCat2: "تطوير الويب والواجهات",
+                skillCat3: "إدارة الأعمال والتخطيط",
+                skillMgmt1: "إدارة المشاريع والتنظيم",
+                skillMgmt2: "التسويق الرقمي وصناعة المحتوى",
+                skillMgmt3: "التواصل الفعال والعمل الجماعي",
+                projectsSubtitle: "معرض الأعمال",
+                projectsTitle: "أبرز المشاريع والنماذج",
+                filterAll: "الكل",
+                filterWeb: "تطوير ويب",
+                filterMis: "نظم معلومات",
+                filterBusiness: "إدارة أعمال",
+                expSubtitle: "المسار الأكاديمي والعملي",
+                expTitle: "التعليم والخبرات",
+                exp1Date: "مستمر",
+                exp1Title: "بكالوريوس نظم المعلومات الإدارية وإدارة الأعمال",
+                exp1Desc: "دراسة متكاملة تجمع بين تحليل وتصميم النظم، قواعد البيانات، مبادئ الإدارة، المحاسبة، والتجارة الإلكترونية.",
+                exp2Date: "مشاريع حرة وتطبيقية",
+                exp2Title: "تطوير مواقع الويب وحلول البيانات",
+                exp2Desc: "تصميم مواقع تعريفية وتفاعلية متجاوبة مع جميع الشاشات، وبناء لوحات متابعة وتقارير Excel/SQL لدعم القرارات الإدارية.",
+                contactSubtitle: "لنبدأ العمل معاً",
+                contactTitle: "تواصل معي مباشرة",
+                contactDesc: "يسعدني تواصلك معي عبر واتساب أو إنستجرام أو إرسال رسالتك مباشرة من النموذج أدناه.",
+                cardWhatsappTitle: "محادثة فورية على واتساب",
+                cardInstaTitle: "تابعني وتواصل عبر إنستجرام",
+                cardLocationLabel: "الموقع",
+                cardLocationValue: "مصر (متاح للعمل عن بُعد)",
+                formNameLabel: "الاسم بالكامل",
+                formNamePlaceholder: "اكتب اسمك هنا",
+                formSubjectLabel: "الموضوع",
+                formSubjectPlaceholder: "عنوان الرسالة أو المشروع",
+                formMessageLabel: "تفاصيل الرسالة",
+                formMessagePlaceholder: "اكتب رسالتك هنا وسيتم تجهيزها للإرسال الفوري عبر واتساب...",
+                formWhatsappSubmit: "إرسال عبر واتساب مباشرة",
+                modalAskBtn: "اطلب مشروعاً مشابهاً عبر واتساب",
+                footerCopyright: "© 2026 أحمد علي مصطفى. جميع الحقوق محفوظة.",
+                backToTop: "العودة للأعلى"
+            },
+            en: {
+                brandName: "Ahmed Ali Mostafa",
+                navHome: "Home",
+                navAbout: "About",
+                navSkills: "Skills",
+                navProjects: "Projects",
+                navExperience: "Experience",
+                navContact: "Contact",
+                heroBadge: "Available for Projects & Collaboration",
+                heroGreeting: "Hello, I am",
+                heroName: "Ahmed Ali Mostafa",
+                heroRole: "Management Information Systems (MIS) & Business Administration Student",
+                heroBio: "Bridging business management, data analysis, and modern web development to build practical systems and digital experiences that help individuals and businesses grow.",
+                heroWhatsappBtn: "Chat on WhatsApp",
+                heroProjectsBtn: "Explore My Work",
+                changePhotoLabel: "Change / Preview Your Personal Photo",
+                badgeFocusLabel: "Major",
+                badgeFocusValue: "MIS & Business",
+                photoHelperText: "Place photo_5834669632776769788_y.jpg next to this HTML file or hover over the frame to select it from your device.",
+                aboutSubtitle: "Get To Know Me",
+                aboutTitle: "About Me",
+                aboutP1: "I am Ahmed Ali Mostafa, a dedicated Management Information Systems and Business Administration student. I believe technology is the core driver of modern business success, combining analytical thinking with technical execution.",
+                aboutP2: "I focus on building responsive websites, analyzing business data, and designing database structures and dashboards that streamline daily operations.",
+                infoWhatsappLabel: "Direct WhatsApp",
+                infoInstaLabel: "Instagram",
+                statProjects: "Academic & Applied Projects",
+                statTools: "Analysis & Dev Tools",
+                statCommitment: "Dedication & Precision",
+                statSupport: "Fast & Flexible Response",
+                skillsSubtitle: "Capabilities & Tools",
+                skillsTitle: "Technical & Business Skills",
+                skillCat1: "Information Systems & Data",
+                skillCat2: "Web & Frontend Development",
+                skillCat3: "Business & Planning",
+                skillMgmt1: "Project Management & Organization",
+                skillMgmt2: "Digital Marketing & Content",
+                skillMgmt3: "Communication & Teamwork",
+                projectsSubtitle: "Portfolio Showcase",
+                projectsTitle: "Featured Projects",
+                filterAll: "All",
+                filterWeb: "Web Dev",
+                filterMis: "MIS & Data",
+                filterBusiness: "Business",
+                expSubtitle: "Academic & Practical Path",
+                expTitle: "Education & Experience",
+                exp1Date: "Present",
+                exp1Title: "B.Sc. in Management Information Systems & Business Administration",
+                exp1Desc: "Comprehensive study combining systems analysis, database management, accounting, management principles, and e-business.",
+                exp2Date: "Freelance & Applied Work",
+                exp2Title: "Web Development & Data Solutions",
+                exp2Desc: "Designing responsive modern websites and building Excel/SQL analytical dashboards to support executive decision-making.",
+                contactSubtitle: "Let's Work Together",
+                contactTitle: "Contact Me Directly",
+                contactDesc: "Reach out anytime via WhatsApp, Instagram, or prepare your message directly using the form below.",
+                cardWhatsappTitle: "Instant WhatsApp Chat",
+                cardInstaTitle: "Follow & DM on Instagram",
+                cardLocationLabel: "Location",
+                cardLocationValue: "Egypt (Available Remotely)",
+                formNameLabel: "Full Name",
+                formNamePlaceholder: "Enter your name",
+                formSubjectLabel: "Subject",
+                formSubjectPlaceholder: "Project or message title",
+                formMessageLabel: "Message Details",
+                formMessagePlaceholder: "Write your message here to open directly in WhatsApp...",
+                formWhatsappSubmit: "Send Directly via WhatsApp",
+                modalAskBtn: "Inquire About a Similar Project on WhatsApp",
+                footerCopyright: "© 2026 Ahmed Ali Mostafa. All rights reserved.",
+                backToTop: "Back to Top"
+            }
+        };
+
+        // 2. Projects Data
+        const projectsData = [
+            {
+                id: 1,
+                category: "mis",
+                icon: "fa-solid fa-chart-pie",
+                color: "from-blue-600 to-indigo-600",
+                catLabel: { ar: "نظم معلومات", en: "MIS & Data" },
+                title: { ar: "نظام إدارة المبيعات والمخزون", en: "Sales & Inventory Management System" },
+                desc: {
+                    ar: "تصميم قاعدة بيانات متكاملة ولوحة مؤشرات أداء لمتابعة حركة المخزون والمبيعات اليومية وتقليل الهدر.",
+                    en: "Designed a relational database and KPI dashboard to track inventory movement, daily sales, and reduce stock waste."
+                },
+                tags: ["SQL", "Database Design", "Excel Dashboard", "ERP"]
+            },
+            {
+                id: 2,
+                category: "web",
+                icon: "fa-solid fa-laptop-code",
+                color: "from-indigo-600 to-purple-600",
+                catLabel: { ar: "تطوير ويب", en: "Web Dev" },
+                title: { ar: "منصة تعريفية تفاعلية للشركات", en: "Interactive Corporate Landing Platform" },
+                desc: {
+                    ar: "موقع ويب متجاوب ثنائي اللغة يدعم الوضع الليلي والنهاري وتجربة مستخدم سريعة لعرض الخدمات واستقبال طلبات العملاء.",
+                    en: "Bilingual responsive web platform supporting dark/light themes and fast UX to showcase services and capture leads."
+                },
+                tags: ["HTML5", "Tailwind CSS", "JavaScript", "RTL/LTR"]
+            },
+            {
+                id: 3,
+                category: "business",
+                icon: "fa-solid fa-briefcase",
+                color: "from-emerald-600 to-teal-600",
+                catLabel: { ar: "إدارة أعمال", en: "Business" },
+                title: { ar: "دراسة جدوى ونموذج عمل متجر إلكتروني", en: "E-Commerce Feasibility & Business Model" },
+                desc: {
+                    ar: "إعداد نموذج العمل التجاري (BMC) وتحليل السوق والتكاليف المتوقعة لمشروع تجارة إلكترونية ناشئ.",
+                    en: "Prepared a full Business Model Canvas (BMC), market analysis, and financial projections for an e-commerce startup."
+                },
+                tags: ["Business Model", "Market Analysis", "Financial Planning"]
+            }
+        ];
+
+        let currentLang = 'ar';
+        let currentFilter = 'all';
+
+        // 3. Render Projects
+        function renderProjects(filter = 'all') {
+            currentFilter = filter;
+            const grid = document.getElementById('projectsGrid');
+            if (!grid) return;
+
+            const filtered = filter === 'all'
+                ? projectsData
+                : projectsData.filter(p => p.category === filter);
+
+            grid.innerHTML = filtered.map(project => `
+                <article class="group rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 flex flex-col justify-between">
+                    <div>
+                        <div class="h-40 bg-gradient-to-tr ${project.color} p-6 flex items-center justify-between text-white">
+                            <span class="px-3 py-1 rounded-full bg-white/20 text-xs font-bold backdrop-blur-sm">
+                                ${project.catLabel[currentLang]}
+                            </span>
+                            <i class="${project.icon} text-4xl opacity-85 group-hover:scale-110 transition-transform"></i>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-extrabold mb-2.5">${project.title[currentLang]}</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                                ${project.desc[currentLang]}
+                            </p>
+                            <div class="flex flex-wrap gap-1.5">
+                                ${project.tags.map(tag => `<span class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-200/70 dark:bg-slate-800 text-slate-700 dark:text-slate-300">${tag}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6">
+                        <button type="button" onclick="openProjectModal(${project.id})" class="w-full py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-primary-500 text-sm font-bold transition-colors">
+                            ${currentLang === 'ar' ? 'عرض التفاصيل' : 'View Details'}
+                        </button>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        // 4. Language Switcher
+        function applyLanguage(lang) {
+            const targetLang = lang || currentLang || 'ar';
+            currentLang = targetLang;
+
+            document.documentElement.lang = targetLang;
+            document.documentElement.dir = targetLang === 'ar' ? 'rtl' : 'ltr';
+
+            document.title = targetLang === 'ar'
+                ? 'أحمد علي مصطفى | نظم المعلومات الإدارية وإدارة الأعمال'
+                : 'Ahmed Ali Mostafa | MIS & Business Administration';
+
+            document.querySelectorAll('[data-i18n]').forEach((el) => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[targetLang] && translations[targetLang][key]) {
+                    el.textContent = translations[targetLang][key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[targetLang] && translations[targetLang][key]) {
+                    el.setAttribute('placeholder', translations[targetLang][key]);
+                }
+            });
+
+            const langLabel = document.getElementById('langToggleLabel');
+            if (langLabel) {
+                langLabel.textContent = targetLang === 'ar' ? 'EN' : 'عربي';
+            }
+
+            renderProjects(currentFilter);
+        }
+
+        document.getElementById('langToggleBtn').addEventListener('click', () => {
+            applyLanguage(currentLang === 'ar' ? 'en' : 'ar');
+        });
+
+        // 5. Theme Toggle (Dark/Light)
+        function initTheme() {
+            const savedTheme = localStorage.getItem('portfolio_theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
+            document.documentElement.classList.toggle('dark', isDark);
+            updateThemeIcon(isDark);
+        }
+
+        function updateThemeIcon(isDark) {
+            const icon = document.getElementById('themeIcon');
+            if (icon) {
+                icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+        }
+
+        document.getElementById('themeToggleBtn').addEventListener('click', () => {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('portfolio_theme', isDark ? 'dark' : 'light');
+            updateThemeIcon(isDark);
+        });
+
+        // 6. Mobile Menu & Filter Buttons
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('mobileMenu').classList.add('hidden');
+            });
+        });
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('active', 'bg-primary-600', 'text-white');
+                    b.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
+                });
+                btn.classList.add('active', 'bg-primary-600', 'text-white');
+                btn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
+                renderProjects(btn.getAttribute('data-filter'));
+            });
+        });
+
+        // 7. Project Modal Logic
+        window.openProjectModal = function(projectId) {
+            const project = projectsData.find(p => p.id === projectId);
+            if (!project) return;
+            document.getElementById('modalCategory').textContent = project.catLabel[currentLang];
+            document.getElementById('modalTitle').textContent = project.title[currentLang];
+            document.getElementById('modalDesc').textContent = project.desc[currentLang];
+            document.getElementById('modalTags').innerHTML = project.tags
+                .map(tag => `<span class="px-3 py-1 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800">${tag}</span>`)
+                .join('');
+            const modal = document.getElementById('projectModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        };
+
+        document.getElementById('closeModalBtn').addEventListener('click', () => {
+            const modal = document.getElementById('projectModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        });
+
+        // 8. WhatsApp Direct Form Submission
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('senderName').value.trim();
+            const subject = document.getElementById('senderSubject').value.trim();
+            const message = document.getElementById('senderMessage').value.trim();
+
+            const greeting = currentLang === 'ar'
+                ? `مرحباً أحمد، أنا ${name}.\n`
+                : `Hello Ahmed, I am ${name}.\n`;
+            const subjectLine = currentLang === 'ar'
+                ? `الموضوع: ${subject}\n`
+                : `Subject: ${subject}\n`;
+            const bodyLine = `${message}`;
+
+            const fullText = encodeURIComponent(`${greeting}${subjectLine}${bodyLine}`);
+            window.open(`https://wa.me/201515539506?text=${fullText}`, '_blank', 'noopener');
+        });
+
+        // 9. Profile Photo Browser Preview/Upload Handler
+        const photoUploadInput = document.getElementById('photoUploadInput');
+        if (photoUploadInput) {
+            photoUploadInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const imgEl = document.getElementById('profilePhotoImg');
+                    const fallbackEl = document.getElementById('profileFallbackAvatar');
+                    const noteEl = document.getElementById('photoHelperNote');
+                    if (imgEl) {
+                        imgEl.src = event.target.result;
+                        imgEl.classList.remove('hidden');
+                    }
+                    if (fallbackEl) {
+                        fallbackEl.classList.add('hidden');
+                        fallbackEl.classList.remove('flex');
+                    }
+                    if (noteEl) {
+                        noteEl.classList.add('hidden');
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            applyLanguage('ar');
+        });
+    </script>
+</body>
+</html>
